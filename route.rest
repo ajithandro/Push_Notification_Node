@@ -1,0 +1,23 @@
+GET http://localhost:3000/subscribers
+
+###
+
+ POST http://localhost:3000/subscribers/notify
+ Content-Type: application/json
+
+{"notify_Type":"normal",
+"notify_Title":"Notification from Kcube",
+"notify_msg":"we will inform you the recent updates",
+"notify_image":"https://d3pcsg2wjq9izr.cloudfront.net/files/51404/images/51404_0_20200727062158712621.jpg",
+"notify_website":"http://www.kcubeconsulting.com/"}
+=
+
+###
+
+POST  http://localhost:3000/subscribers
+Content-Type: application/json
+
+{"userName":"Lakshmi",
+"Password":"8508695727",
+"deviceID":"4fb94e285d249c5d",
+"fcmToken":"frtHzBSmTHOaoHTqSFjA-X:APA91bHGIqNJ10eEllLBX4aZ51S-1FByhZHKUoXDnC8KixytyxtuUgAgoTJLfMe9WEfANTXdolfJCzKUyRTm20jAbh_Cu0rC3EdQxW5VDjhJwrPKYmO82wfb1C0lNsiD-epHD6hIeI-z"}
