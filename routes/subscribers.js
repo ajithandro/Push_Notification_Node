@@ -4,7 +4,9 @@ const router = express.Router();
 const { get } = require('mongoose');
 const Subscriber = require('../models/subscriber');
 var notification = require('./notificationHelper')
-
+var FCM = require('fcm-node');
+var serverKey = process.env.FCM_SERVER_KEY;
+var fcm = new FCM(serverKey);
 
 //getting one user
 // router.get('/', async (req, res) => {
@@ -35,24 +37,19 @@ router.post('/', async (req, res) => {
 
 
 router.post('/notify', async (req, res) => {
-    var fcmTokens = [];
-    var loadedData;
-    var jsonRes;
     var notify = notification.getTokens();
     notify.then(function (result) {
-        fcmTokens = result;
-        loadedData = notification.buildNotificationData(fcmTokens, req.body);
-        return loadedData;
-        // jsonRes = notification.publishNotification(loadedData);
-        // console.log(jsonRes);
-        // res.status(200).json(jsonRes);
+        return notification.buildNotificationData(result, req.body);
     }).then(data => {
-        jsonRes = notification.publishNotification(data);
-
-        return jsonRes;
-
-    }).then(status => {
-         res.status(200).json(status);
+        fcm.send(data, function (err, response) {
+            if (err) {
+                status = 'Something has gone wrong! ' + err;
+            } else {
+                status = 'Successfully sent with response: ' + response;
+    
+            }
+          res.status(200).json(status);
+        });
 
     })
 });
